@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>phovic presents - .mov</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --green:#3a7a2a;
+    --lime:#8ec63f;
+    --purple:#5b3fa0;
+    --red:#c0392b;
+    --orange:#e8650a;
+    --cyan:#00b4cc;
+    --cream:#f5f0e8;
+    --dark:#1a1a2e;
+    --yellow:#f5c518;
+  }
+  body{
+    font-family:'Noto Sans JP',sans-serif;
+    background:#2a7a1a;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size:40px 40px;
+    pointer-events:none;z-index:0;
+  }
+
+  .hero-bg{
+    position:fixed;inset:0;
+    z-index:0;
+    overflow:hidden;
+  }
+  .hero-bg img{
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+  }
+  .hero-bg-overlay{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(90,40,160,0.45) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(200,80,20,0.35) 0%, transparent 45%),
+      rgba(0,0,0,0.35);
+  }
+
+  .page{position:relative;z-index:1;min-height:100vh;}
+
+  .marquee-bar{
+    background:var(--purple);
+    padding:6px 0;
+    overflow:hidden;
+    border-bottom:3px solid var(--yellow);
+  }
+  .marquee-inner{
+    display:flex;gap:60px;
+    white-space:nowrap;
+    animation:marquee 18s linear infinite;
+    font-family:'Space Mono',monospace;
+    font-size:12px;color:var(--yellow);
+    letter-spacing:2px;
+  }
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  .title-block{
+    padding:40px 24px 0;
+    text-align:center;
+    position:relative;
+  }
+  .big-en{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(60px,12vw,140px);
+    line-height:0.88;
+    color:#F5F0E8;
+    text-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+    letter-spacing:2px;
+    display:block;
+  }
+  .big-en span{color:var(--orange);}
+  .big-jp{
+    font-family:'Noto Sans JP',sans-serif;
+    font-size:clamp(20px,5vw,52px);
+    font-weight:900;
+    color:var(--cyan);
+    letter-spacing:4px;
+    display:block;
+    margin-top:4px;
+    text-shadow:2px 2px 0 rgba(0,0,0,0.5);
+  }
+
+  .blocks-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+    margin:36px 20px 0;
+    border:3px solid var(--dark);
+  }
+  .info-block{
+    padding:32px 28px;
+    border:2px solid rgba(0,0,0,0.25);
+    position:relative;
+    overflow:hidden;
+    min-height:200px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .info-block::after{
+    content:'';
+    position:absolute;top:0;right:0;
+    width:0;height:0;
+    border-left:40px solid transparent;
+    border-top:40px solid rgba(0,0,0,0.2);
+  }
+  .block-label{
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:12px;
+    opacity:0.65;
+  }
+  .block-value{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:52px;
+    letter-spacing:2px;
+    line-height:1;
+    flex:1;
+    display:flex;
+    align-items:center;
+  }
+  .block-jp{
+    font-family:'Noto Sans JP',sans-serif;
+    font-size:13px;font-weight:700;
+    margin-top:14px;opacity:0.8;
+    letter-spacing:2px;
+  }
+
+  .ib-1{background:#5b3fa0;color:var(--cream);}
+  .ib-2{background:var(--orange);color:var(--dark);}
+  .ib-3{background:var(--cyan);color:var(--dark);}
+  .ib-4{background:var(--red);color:var(--cream);}
+  .ib-5{background:var(--yellow);color:var(--dark);}
+  .ib-6{background:var(--dark);color:var(--cream);}
+
+  @media(max-width:700px){
+    .blocks-grid{grid-template-columns:repeat(2,1fr);}
+    .info-block{min-height:160px;}
+    .block-value{font-size:38px;}
+  }
+  @media(max-width:420px){
+    .blocks-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---- TIMER ---- */
+  .timer-section{
+    margin:0 20px;
+    background:rgba(10,10,20,0.88);
+    border:2px solid var(--yellow);
+    border-top:none;
+    padding:28px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .timer-label{
+    font-family:'Space Mono',monospace;
+    font-size:10px;letter-spacing:4px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.45);
+    margin-bottom:6px;
+  }
+  .timer-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:22px;letter-spacing:3px;
+    color:var(--yellow);
+  }
+  .timer-digits{
+    display:flex;gap:4px;align-items:flex-end;
+  }
+  .timer-unit{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+  }
+  .timer-num{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(48px,8vw,80px);
+    line-height:1;color:#fff;
+    background:rgba(255,255,255,0.07);
+    border:1.5px solid rgba(255,255,255,0.12);
+    padding:6px 16px;
+    min-width:80px;text-align:center;
+  }
+  .timer-unit-label{
+    font-family:'Space Mono',monospace;
+    font-size:9px;letter-spacing:3px;
+    color:rgba(255,255,255,0.4);
+    text-transform:uppercase;
+  }
+  .timer-sep{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:60px;color:var(--yellow);
+    padding-bottom:10px;opacity:0.6;
+  }
+  .timer-status{
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:2px;
+    margin-top:12px;color:var(--lime);
+  }
+  .timer-status.ended{color:#ff6b6b;}
+  @media(max-width:600px){
+    .timer-section{flex-direction:column;align-items:flex-start;}
+    .timer-num{min-width:60px;padding:4px 10px;}
+  }
+  /* ---- END TIMER ---- */
+
+  .divider{
+    display:flex;align-items:center;
+    gap:12px;padding:28px 24px 0;
+  }
+  .div-line{flex:1;height:2px;background:rgba(255,255,255,0.2);}
+  .div-text{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:18px;color:var(--yellow);letter-spacing:4px;
+  }
+
+  .login-section{
+    padding:28px 20px 48px;
+    display:flex;justify-content:center;
+  }
+  .login-card{
+    background:rgba(10,10,20,0.85);
+    border:2px solid var(--purple);
+    width:100%;max-width:480px;
+    position:relative;
+    clip-path:polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  }
+  .login-card-inner{padding:32px 28px;}
+  .login-header{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:28px;
+  }
+  .login-badge{
+    background:var(--purple);
+    font-family:'Bebas Neue',sans-serif;
+    font-size:13px;letter-spacing:2px;
+    color:var(--yellow);
+    padding:4px 10px;
+    clip-path:polygon(0 0,100% 0,100% 70%,90% 100%,0 100%);
+  }
+  .login-title-jp{
+    font-size:13px;font-weight:700;
+    color:rgba(255,255,255,0.6);letter-spacing:3px;
+  }
+  .field-group{margin-bottom:18px;}
+  .field-label{
+    font-family:'Space Mono',monospace;
+    font-size:10px;letter-spacing:3px;
+    color:rgba(255,255,255,0.5);
+    text-transform:uppercase;
+    margin-bottom:7px;display:block;
+  }
+  .field-input{
+    width:100%;background:rgba(255,255,255,0.07);
+    border:1.5px solid rgba(91,63,160,0.6);
+    color:#fff;
+    padding:12px 14px;
+    font-family:'Space Mono',monospace;
+    font-size:15px;letter-spacing:3px;
+    outline:none;
+    transition:border-color 0.2s;
+  }
+  .field-input:focus{border-color:var(--cyan);}
+  .field-input::placeholder{color:rgba(255,255,255,0.2);letter-spacing:1px;}
+
+  .submit-btn{
+    width:100%;
+    background:var(--purple);
+    border:none;color:var(--yellow);
+    font-family:'Bebas Neue',sans-serif;
+    font-size:22px;letter-spacing:4px;
+    padding:14px;
+    cursor:pointer;
+    clip-path:polygon(0 0,100% 0,100% 70%,calc(100% - 16px) 100%,0 100%);
+    transition:background 0.2s,transform 0.1s;
+    margin-top:8px;
+  }
+  .submit-btn:hover{background:var(--orange);transform:translateY(-1px);}
+  .submit-btn:active{transform:translateY(0);}
+
+  .error-msg{
+    display:none;
+    font-family:'Space Mono',monospace;
+    font-size:11px;color:#ff6b6b;
+    letter-spacing:2px;margin-top:12px;
+    padding:10px 12px;
+    border-left:3px solid #ff6b6b;
+    background:rgba(255,50,50,0.1);
+  }
+
+  .result-panel{
+    display:none;
+    padding:0 20px 60px;
+  }
+  .result-card{
+    background:rgba(10,10,20,0.9);
+    border:2px solid var(--cyan);
+    max-width:700px;margin:0 auto;
+    clip-path:polygon(0 0,calc(100% - 32px) 0,100% 32px,100% 100%,32px 100%,0 calc(100% - 32px));
+    animation:slideIn 0.5s ease;
+  }
+  @keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .result-inner{padding:36px 32px;}
+
+  .result-tag{
+    font-family:'Space Mono',monospace;
+    font-size:10px;letter-spacing:3px;
+    color:var(--cyan);text-transform:uppercase;
+    margin-bottom:20px;display:flex;align-items:center;gap:10px;
+  }
+  .result-tag::before{content:'';display:block;width:32px;height:2px;background:var(--cyan);}
+
+  .team-confirm{
+    background:rgba(0,180,204,0.12);
+    border-left:3px solid var(--cyan);
+    padding:10px 14px;margin-bottom:24px;
+  }
+  .team-confirm-label{
+    font-family:'Space Mono',monospace;font-size:9px;
+    letter-spacing:3px;color:rgba(255,255,255,0.4);
+    text-transform:uppercase;margin-bottom:4px;
+  }
+  .team-confirm-name{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:24px;color:#fff;letter-spacing:2px;
+  }
+
+  .topic-en{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(32px,6vw,56px);
+    color:var(--yellow);
+    line-height:1;letter-spacing:2px;
+    margin-bottom:10px;
+    text-shadow:2px 2px 0 rgba(0,0,0,0.5);
+  }
+  .topic-jp{
+    font-size:14px;font-weight:700;
+    color:rgba(255,255,255,0.5);
+    letter-spacing:4px;margin-bottom:24px;
+  }
+  .topic-desc{
+    font-size:14px;line-height:1.8;
+    color:rgba(255,255,255,0.75);
+    border-top:1px solid rgba(255,255,255,0.1);
+    padding-top:18px;margin-bottom:20px;
+  }
+  .round-pill{
+    display:inline-block;
+    background:var(--orange);color:#fff;
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:2px;
+    padding:5px 14px;
+    font-weight:700;
+    clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+  }
+
+  .back-btn{
+    display:block;margin:24px auto 0;
+    background:transparent;
+    border:1.5px solid rgba(255,255,255,0.25);
+    color:rgba(255,255,255,0.5);
+    font-family:'Space Mono',monospace;
+    font-size:11px;letter-spacing:2px;
+    padding:9px 20px;cursor:pointer;
+    transition:all 0.2s;
+  }
+  .back-btn:hover{border-color:var(--purple);color:#fff;}
+
+  .footer{
+    background:var(--dark);
+    border-top:3px solid var(--purple);
+    padding:12px 24px;
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:8px;
+    position:relative;z-index:2;
+  }
+  .footer-club{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:16px;color:var(--yellow);letter-spacing:2px;
+  }
+  .footer-jp{
+    font-size:11px;font-weight:700;
+    color:rgba(255,255,255,0.4);letter-spacing:3px;
+  }
+  .footer-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--lime);
+    display:inline-block;margin-right:6px;
+    animation:blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:var(--dark);}
+  ::-webkit-scrollbar-thumb{background:var(--purple);}
+</style>
+</head>
+<body>
+
+<div class="hero-bg">
+  <img src="img.png" alt="background"/>
+  <div class="hero-bg-overlay"></div>
+</div>
+<div class="page">
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar">
+    <div class="marquee-inner">
+      <span>◆ PHOVICく</span>
+      <span>◆ UNDER THE OBVIOUS</span>
+      <span>◆ FIRST OF ITS KIND</span>
+      <span>◆ .MOV</span>
+      <span>◆ STANDOUT</span>
+      <span>◆ PHOVIC</span>
+      <span>◆ 100 HOURS FILM MAKING CHALLENGE</span>
+      <span>◆ UNDER THE OBVIOUS</span>
+      <span>◆ 知識よりも感覚で</span>
+      <span>◆ .MOV</span>
+      <span>◆ 正解よりも解釈で</span>
+      <span>◆ IT ONY TAKES 100 HOURS</span>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-block">
+    <span class="big-en">PHOVIC<br/><span>PRESENTS</span></span>
+    <span class="big-jp">.MOV (100 HOURS FILM MAKING CHALLANGE)</span>
+  </div>
+
+  <!-- INFO BLOCKS -->
+  <div class="blocks-grid">
+    <div class="info-block ib-1">
+      <div class="block-label">Competition</div>
+      <div class="block-value">.MOV (FILM MAKING CHALLENGE)</div>
+      <div class="block-jp">.MOV (映画制作チャレンジ)</div>
+    </div>
+    <div class="info-block ib-2">
+      <div class="block-label">Club</div>
+      <div class="block-value">PHOVIC</div>
+      <div class="block-jp">フォビック</div>
+    </div>
+    <div class="info-block ib-3">
+      <div class="block-label">Format</div>
+      <div class="block-value">SHORT FILM</div>
+      <div class="block-jp">短編映画</div>
+    </div>
+    <div class="info-block ib-4">
+      <div class="block-label">Teams</div>
+      <div class="block-value">20 TEAMS</div>
+      <div class="block-jp">20チーム</div>
+    </div>
+    <div class="info-block ib-5">
+      <div class="block-label">TIME</div>
+      <div class="block-value">100 HOURS</div>
+      <div class="block-jp">100時間</div>
+    </div>
+    <div class="info-block ib-6">
+      <div class="block-label">DATE</div>
+      <div class="block-value">18 MARCH - 22 MARCH</div>
+      <div class="block-jp">3月18日～3月22日</div>
+    </div>
+  </div>
+
+  <!-- 100 HOUR COUNTDOWN TIMER -->
+  <div class="timer-section">
+    <div>
+      <div class="timer-label">100 Hours Film Challenge — Time Remaining / 残り時間</div>
+      <div class="timer-title">⏱ 100 HOURS COUNTDOWN</div>
+      <div class="timer-status" id="timerStatus">● LIVE</div>
+    </div>
+    <div class="timer-digits">
+      <div class="timer-unit">
+        <div class="timer-num" id="tDays">00</div>
+        <div class="timer-unit-label">Days</div>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-num" id="tHours">00</div>
+        <div class="timer-unit-label">Hours</div>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-num" id="tMins">00</div>
+        <div class="timer-unit-label">Mins</div>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-num" id="tSecs">00</div>
+        <div class="timer-unit-label">Secs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="div-line"></div>
+    <div class="div-text">◆ GET YOUR TOPIC ◆</div>
+    <div class="div-line"></div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="login-section" id="loginSection">
+    <div class="login-card">
+      <div class="login-card-inner">
+        <div class="login-header">
+          <div class="login-badge">TEAM ACCESS</div>
+          <div class="login-title-jp"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="teamId">Team ID ／ チームID</label>
+          <input class="field-input" id="teamId" type="text" placeholder="e.g. TEAM-01" autocomplete="off" spellcheck="false"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="teamPass">Password ／ パスワード</label>
+          <input class="field-input" id="teamPass" type="password" placeholder="••••••••" autocomplete="off"/>
+        </div>
+
+        <button class="submit-btn" onclick="handleLogin()">ENTER →</button>
+        <div class="error-msg" id="errorMsg">⚠ &nbsp; INVALID TEAM ID OR PASSWORD — チームIDまたはパスワードが無効です</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-panel" id="resultPanel">
+    <div class="result-card">
+      <div class="result-inner">
+        <div class="result-tag">Topic Unlocked ／ トピック解放</div>
+
+        <div class="team-confirm">
+          <div class="team-confirm-label">Team confirmed ／ チーム確認</div>
+          <div class="team-confirm-name" id="resultTeamName">—</div>
+        </div>
+
+        <div class="topic-en" id="resultTopic">—</div>
+        <div class="topic-jp" id="resultTopicJp">—</div>
+        <div class="topic-desc" id="resultDesc">—</div>
+
+        <span class="round-pill" id="resultRound">—</span>
+
+        <br/>
+        <button class="back-btn" onclick="goBack()">← 戻る / Back</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div>
+    <div class="footer-club">PHOVIC MITS </div>
+    <div class="footer-jp">Contact ORGANIZING TEAM @ photographyvideographyclubmits@gmail.com</div>
+    <div class="footer-jp">Developed by : Akshat GUpta | Technical head @ PHOVIC </div>
+    <div class="footer-jp">Developer contact : akshat8036@gmail.com </div>
+  </div>
+  <div style="font-family:'Space Mono',monospace;font-size:11px;color:rgba(255,255,255,0.4);">
+    <span class="footer-dot"></span>LIVE — MARCH 2026
+  </div>
+</div>
+
+<script>
+const TEAMS = {
+  "MOV001": {
+    password: "alpha@mov001",
+    name: "Team BMW",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Thriller + Mystery",
+  },
+  "MOV002": {
+    password: "alpha@mov002",
+    name: "Team KK",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Comedy",
+  },
+  "MOV003": {
+    password: "alpha@mov003",
+    name: "Team Arcana Atelier",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Horror",
+  },
+  "MOV004": {
+    password: "alpha@mov004",
+    name: "Team Nirvana",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Horror + Thriller",
+  },
+  "MOV005": {
+    password: "alpha@mov005",
+    name: "Team Packup ",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Romance + Comedy",
+  },
+  "MOV006": {
+    password: "alpha@mov006",
+    name: "Team Crimson Aura Production",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Drama + Mystery",
+  },
+  "MOV007": {
+    password: "alpha@mov007",
+    name: "Team Semi Real Studio ",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Satirical Comedy + Crime",
+  },
+  "MOV008": {
+    password: "alpha@mov008",
+    name: "Team Cinematic Assassins",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Mystery + Comedy",
+  },
+  "MOV009": {
+    password: "alpha@mov009",
+    name: "Team CinTax",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Horror + Comedy + Romance",
+  },
+  "MOV010": {
+    password: "alpha@mov010",
+    name: "Team Absolute cinema",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Crime + Thriller",
+  },
+  "MOV011": {
+    password: "alpha@mov011",
+    name: "Team Odd Frame Out",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Romance + Drama",
+  },
+  "MOV012": {
+    password: "alpha@mov012",
+    name: "Team No Retake Crew",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Thriller",
+  },
+  "MOV013": {
+    password: "alpha@mov013",
+    name: "Team Pradarshan",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Horror + Drama",
+  },
+  "MOV014": {
+    password: "alpha@mov014",
+    name: "Team Delete productions ",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Crime",
+  },
+  "MOV015": {
+    password: "alpha@mov015",
+    name: "Team Third act ",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Psychological + Thriller",
+  },
+  "MOV016": {
+    password: "alpha@mov016",
+    name: "Team The Prospectors' Cut ",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Mockumentary + Comedy",
+  },
+  "MOV017": {
+    password: "alpha@mov017",
+    name: "Team Killer gang",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Mystery",
+  },
+  "MOV018": {
+    password: "alpha@mov018",
+    name: "Team ZERO",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Drama",
+  },
+  "MOV019": {
+    password: "alpha@mov019",
+    name: "Team Satranga sangam samiti",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Comedy + Drama",
+  },
+  "MOV020": {
+    password: "alpha@mov020",
+    name: "Team Filmy diaries ",
+    topic: "Theme : Breaking News",
+    desc: "Genre : Comedy + Thriller",
+  },
+  "MOV021": {
+    password: "alpha@mov021",
+    name: "Team RED Frame",
+    topic: "Theme : Breaking News",
+    desc: "Genre :  Physiological fantasy",
+  }
+};
+
+// 100 HOUR COUNTDOWN — starts 18 March 2026 at 2:00 PM IST
+const START_TIME = new Date('2026-03-18T14:00:00+05:30');
+const END_TIME   = new Date(START_TIME.getTime() + 100 * 60 * 60 * 1000);
+
+function updateTimer(){
+  const now    = new Date();
+  const diff   = END_TIME - now;
+  const status = document.getElementById('timerStatus');
+
+  if(diff <= 0){
+    document.getElementById('tDays').textContent  = '00';
+    document.getElementById('tHours').textContent = '00';
+    document.getElementById('tMins').textContent  = '00';
+    document.getElementById('tSecs').textContent  = '00';
+    status.textContent = '■ CHALLENGE ENDED';
+    status.classList.add('ended');
+    return;
+  }
+
+  const totalSecs = Math.floor(diff / 1000);
+  const d = Math.floor(totalSecs / 86400);
+  const h = Math.floor((totalSecs % 86400) / 3600);
+  const m = Math.floor((totalSecs % 3600) / 60);
+  const s = totalSecs % 60;
+
+  document.getElementById('tDays').textContent  = String(d).padStart(2,'0');
+  document.getElementById('tHours').textContent = String(h).padStart(2,'0');
+  document.getElementById('tMins').textContent  = String(m).padStart(2,'0');
+  document.getElementById('tSecs').textContent  = String(s).padStart(2,'0');
+
+  if(now < START_TIME){
+    status.textContent = '◆ STARTING SOON';
+    status.style.color = '#f5c518';
+  } else {
+    status.textContent = '● LIVE';
+    status.style.color = '#8ec63f';
+  }
+}
+updateTimer();
+setInterval(updateTimer, 1000);
+
+function handleLogin() {
+  const id = document.getElementById('teamId').value.trim().toUpperCase();
+  const pass = document.getElementById('teamPass').value.trim();
+  const err = document.getElementById('errorMsg');
+
+  if (!TEAMS[id] || TEAMS[id].password !== pass) {
+    err.style.display = 'block';
+    document.getElementById('teamId').style.borderColor = '#ff6b6b';
+    document.getElementById('teamPass').style.borderColor = '#ff6b6b';
+    return;
+  }
+
+  err.style.display = 'none';
+  const t = TEAMS[id];
+  document.getElementById('resultTeamName').textContent = t.name + ' ／ ' + id;
+  document.getElementById('resultTopic').textContent = t.topic;
+  document.getElementById('resultTopicJp').textContent = t.topicJp;
+  document.getElementById('resultDesc').textContent = t.desc;
+  document.getElementById('resultRound').textContent = t.round;
+
+  document.getElementById('loginSection').style.display = 'none';
+  document.getElementById('resultPanel').style.display = 'block';
+  window.scrollTo({top: document.getElementById('resultPanel').offsetTop - 20, behavior:'smooth'});
+}
+
+function goBack() {
+  document.getElementById('resultPanel').style.display = 'none';
+  document.getElementById('loginSection').style.display = 'flex';
+  document.getElementById('teamId').value = '';
+  document.getElementById('teamPass').value = '';
+  document.getElementById('teamId').style.borderColor = '';
+  document.getElementById('teamPass').style.borderColor = '';
+  window.scrollTo({top: 0, behavior:'smooth'});
+}
+
+document.getElementById('teamPass').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') handleLogin();
+});
+document.getElementById('teamId').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') document.getElementById('teamPass').focus();
+});
+</script>
+</body>
+</html>
